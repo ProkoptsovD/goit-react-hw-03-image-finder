@@ -11,7 +11,7 @@ const ImageGallery = ({ imageList, openModal }) => {
 
                     return (
                             <ImageGalleryItem
-                                id={id}
+                                key={id}
                                 imageURL={webformatURL}
                                 onClick={openModalBinded}
                             />

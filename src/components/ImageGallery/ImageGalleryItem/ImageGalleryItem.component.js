@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { ListItem, Image } from './ImageGalleryItem.styled';
 
-const ImageGalleryItem = ({ id, imageURL, onClick }) => {
+const ImageGalleryItem = ({ imageURL, onClick }) => {
     return (
-        <ListItem key={id}>
+        <ListItem>
             <Image
                 src={imageURL}
                 alt='pixabay'
@@ -14,7 +14,6 @@ const ImageGalleryItem = ({ id, imageURL, onClick }) => {
 }
 
 ImageGalleryItem.propTypes = {
-    id: PropTypes.number.isRequired,
     imageURL: PropTypes.string.isRequired,
     onClick: PropTypes.func,
 }

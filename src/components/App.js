@@ -18,12 +18,13 @@ export class App extends Component {
     imageModal: '',
     isLoading: false,
     isLoadMore: false,
+    isLastPage: false,
   }
   findImageByQuery = (query) => {
     if (query === '') {
       return toast.warn('Please, type something to start search')
     }
-
+    this.setState({ images: []});
     const sanitizedQuery = query.trim().toLowerCase();
 
     this.toggleLoadingStatus();
@@ -38,9 +39,15 @@ export class App extends Component {
   loadMore = async () => {
     this.toggleLoadMoreStatus();
     pixabayAPI.nextPage()
-      .then(({ hits }) => this.setState(prevState => ({
+      .then(({ hits }) => {
+        if (hits.length === 0) {
+          return this.setState({ isLastPage: true});
+        }
+        
+        this.setState(prevState => ({
           ...prevState,
-          images: [...prevState.images, ...hits]})))
+          images: [...prevState.images, ...hits]}))
+      })
       .catch(console.log)
       .finally(this.toggleLoadMoreStatus);
   };
@@ -54,12 +61,12 @@ export class App extends Component {
     }
   };
   render () {
-    const { images, imageModal, isLoading, isLoadMore } = this.state;
+    const { images, imageModal, isLoading, isLoadMore, isLastPage } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
           <Searchbar
-            findImageByQuery={this.findImageByQuery}
+            onSubmit={this.findImageByQuery}
           />
           <main>
             {
@@ -75,6 +82,7 @@ export class App extends Component {
                                       ? <Button
                                           onClick={this.loadMore}
                                           showLoader={isLoadMore}
+                                          disabled={isLastPage}
                                         >
                                           Load more
                                         </Button>

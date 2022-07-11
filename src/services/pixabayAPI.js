@@ -33,7 +33,7 @@ class API {
     setParams = (params) => this.params = params;
     setPage = (pageNumber) => this.page = pageNumber;
     url = () => `${this.baseURL}?key=${this.authToken}&q=${this.query}&${this.params}&per_page=${this.perPage}&page=${this.page}`;
-    nextPage = () => this.page < this.end ? this.getImage() : null;
+    nextPage = () => this.page < this.end ? this.getImage() : Promise.resolve({ hits: []});
     resetPage = () => this.page = 1;
     findEnd = (totalHits) => {
         this.end = Math.ceil(+totalHits / this.perPage);

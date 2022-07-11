@@ -18,4 +18,8 @@ export const Btn = styled.button`
     &:active {
         box-shadow: inset 0px 0px 4px 0px #fafafa;
     }
+    &:disabled {
+        background-color: #cacaca;
+        cursor: not-allowed;
+    }
 `;

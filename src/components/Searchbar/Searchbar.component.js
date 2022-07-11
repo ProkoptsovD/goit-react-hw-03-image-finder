@@ -14,10 +14,10 @@ class Searchbar extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { findImageByQuery } = this.props;
+        const { onSubmit } = this.props;
         const { inputValue } = this.state;
         
-        findImageByQuery(inputValue);
+        onSubmit(inputValue);
         // this.setState({ inputValue: ''});
     }
     render () {
@@ -49,7 +49,7 @@ class Searchbar extends Component {
 }
 
 Searchbar.propTypes = {
-    findImageByQuery: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
 }
 
 export default Searchbar;
