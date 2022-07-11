@@ -1,0 +1,1 @@
+export { pixabayAPI } from './pixabayAPI';
