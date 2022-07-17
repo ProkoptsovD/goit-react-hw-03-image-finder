@@ -16,8 +16,9 @@ class Searchbar extends Component {
 
         const { onSubmit } = this.props;
         const { inputValue } = this.state;
+        const sanitizedQuery = inputValue.trim().toLowerCase();
         
-        onSubmit(inputValue);
+        onSubmit(sanitizedQuery);
         // this.setState({ inputValue: ''});
     }
     render () {

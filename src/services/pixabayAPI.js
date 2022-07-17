@@ -5,20 +5,17 @@ class API {
         this.params = params || '&image_type=photo&orientation=horizontal&per_page=12';
         this.page = page || 1;
         this.perPage = perPage || 12; 
-        this.end = 0;
-        this.isTouched = false;
-        this.query = '';
+        this.totalPages = 0;
     }
 
-    getImage = async (query) => {
+    getImage = async (query, page) => {
         try {
-            this.handleQuery(query);
-            const response = await fetch(this.url());
+            const response = await fetch(this.url(query, page));
             if (response.ok) {
                 const parsedData = await response.json();
+                this.totalHits = await parsedData.totalHits;
                 
-                if (!this.isTouched) this.findEnd(parsedData.totalHits);
-                this.page += 1;
+                this.findPagesQuantaty();
 
                 return parsedData;
             }
@@ -32,22 +29,12 @@ class API {
     setToken = (token) => this.authToken = token;
     setParams = (params) => this.params = params;
     setPage = (pageNumber) => this.page = pageNumber;
-    url = () => `${this.baseURL}?key=${this.authToken}&q=${this.query}&${this.params}&per_page=${this.perPage}&page=${this.page}`;
+    url = (query, page) => `${this.baseURL}?key=${this.authToken}&q=${query}&${this.params}&per_page=${this.perPage}&page=${page}`;
     nextPage = () => this.page < this.end ? this.getImage() : Promise.resolve({ hits: []});
     resetPage = () => this.page = 1;
-    findEnd = (totalHits) => {
-        this.end = Math.ceil(+totalHits / this.perPage);
-        this.isTouched = true;
+    findPagesQuantaty = () => {
+        this.totalPages = Math.ceil(+this.totalHits / this.perPage);
     };
-    handleQuery = (query) => {
-        if (!query) return;
-        
-        if(this.query && this.query !== query) {
-            this.resetPage();
-        }
-
-        this.query = query;
-    }
 }
 
 export const pixabayAPI = new API();
