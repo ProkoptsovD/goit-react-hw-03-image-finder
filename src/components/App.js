@@ -88,6 +88,7 @@ export class App extends Component {
   }
   render () {
     const { images, imageModal, isLoading, isLoadMore, isLastPage } = this.state;
+    const shouldRenderGallery = !isLoading && images.length;
 
     return (
       <ThemeProvider theme={theme}>
@@ -95,23 +96,23 @@ export class App extends Component {
             onSubmit={this.setQueryToState}
           />
           <main>
-            { isLoading && <Loader type='dual-rings'/> }
             {
-              (!isLoading && images.length) && <ImageGallery
-                                                openModal={this.openModal}
-                                                imageList={images}
-                                              />
+              isLoading && <Loader type='dual-rings'/>
             }
             {
-              images.length && !isLoading
-                                      ? <Button
-                                          onClick={this.loadMore}
-                                          showLoader={isLoadMore}
-                                          disabled={isLastPage}
+              shouldRenderGallery && <>
+                                        <ImageGallery
+                                          openModal={this.openModal}
+                                          imageList={images}
+                                        />
+                                        <Button
+                                            onClick={this.loadMore}
+                                            showLoader={isLoadMore}
+                                            disabled={isLastPage}
                                         >
-                                          Load more
+                                            Load more
                                         </Button>
-                                      : null
+                                      </>
             }
           </main>
           {
