@@ -95,15 +95,12 @@ export class App extends Component {
             onSubmit={this.setQueryToState}
           />
           <main>
+            { isLoading && <Loader type='dual-rings'/> }
             {
-              isLoading
-                ? <Loader type='dual-rings'/>
-                : !images.length 
-                ? null
-                : <ImageGallery
-                    openModal={this.openModal}
-                    imageList={images}
-                  />
+              (!isLoading && images.length) && <ImageGallery
+                                                openModal={this.openModal}
+                                                imageList={images}
+                                              />
             }
             {
               images.length && !isLoading
