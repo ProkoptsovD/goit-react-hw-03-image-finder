@@ -4,6 +4,9 @@ import { SearchBar, SearchForm, Input, SerchButton } from './Searchbar.styled';
 import Container from 'components/common/Container';
 
 class Searchbar extends Component {
+    static defaultProps = {
+        onSubmit: PropTypes.func.isRequired
+    }
     state = {
         inputValue: '',
     }
@@ -19,7 +22,6 @@ class Searchbar extends Component {
         const sanitizedQuery = inputValue.trim().toLowerCase();
         
         onSubmit(sanitizedQuery);
-        // this.setState({ inputValue: ''});
     }
     render () {
         const { inputValue } = this.state;
@@ -47,10 +49,6 @@ class Searchbar extends Component {
             </SearchBar>
         )
     }
-}
-
-Searchbar.propTypes = {
-    onSubmit: PropTypes.func.isRequired
 }
 
 export default Searchbar;
